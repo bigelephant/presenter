@@ -1,23 +1,12 @@
 <?php
 
-use Mockery as m;
 use BigElephant\Presenter\Presenter;
 
 class PresenterTest extends PHPUnit_Framework_TestCase {
 
-	public function setUp()
-	{
-		$this->injectObject = new InjectStub;
-	}
-
-	public function tearDown()
-	{
-		m::close();
-	}
-
 	public function testPresenterVariableCalls()
 	{
-		$presenter = new PresenterStub($this->injectObject);
+		$presenter = new PresenterStub(new InjectStub);
 
 		$this->assertEquals($presenter->testVar, 'testvar');
 		$this->assertEquals($presenter->testVar2, 'testvar2');
@@ -25,7 +14,7 @@ class PresenterTest extends PHPUnit_Framework_TestCase {
 
 	public function testPresenterMethodCalls()
 	{
-		$presenter = new PresenterStub($this->injectObject);
+		$presenter = new PresenterStub(new InjectStub);
 
 		$this->assertEquals($presenter->testMethod(), 'testMethod');
 		$this->assertEquals($presenter->testMethod2(), 'testMethod2');
@@ -33,7 +22,7 @@ class PresenterTest extends PHPUnit_Framework_TestCase {
 
 	public function testNestedPresenterVariableCalls()
 	{
-		$presenter = new PresenterStub(new PresenterStub2($this->injectObject));
+		$presenter = new PresenterStub(new PresenterStub2(new InjectStub));
 
 		$this->assertEquals($presenter->testVar, 'testvar');
 		$this->assertEquals($presenter->testVar2, 'testvar2');
@@ -42,7 +31,7 @@ class PresenterTest extends PHPUnit_Framework_TestCase {
 
 	public function testNestedPresenterMethodCalls()
 	{
-		$presenter = new PresenterStub(new PresenterStub2($this->injectObject));
+		$presenter = new PresenterStub(new PresenterStub2(new InjectStub));
 
 		$this->assertEquals($presenter->testMethod(), 'testMethod');
 		$this->assertEquals($presenter->testMethod2(), 'testMethod2');
