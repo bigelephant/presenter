@@ -1,6 +1,6 @@
 ## Presenter
 
-Simple presenter to wrap objects, designed for Laravel but fine without.
+Simple presenter to wrap and render objects. Designed to work with Laravel, but will work as a stand-alone solution.
 
 ### Installation
 
@@ -11,18 +11,18 @@ Add the following to the "require" section of your `composer.json` file:
 ```
 
 ### Basic Usage
-The idea here is you have 2 classes. Your model full of data and then a presenter which works as a sort of wrapper to help with your views.
-If you have a `User` object you might have a `UserPresenter` presenter to go with it. To use it all you do is `$userObject new UserPresent($userObject);`. 
-The `$userObject` will work the same as normal unless something is called that is in the `UserPresenter`. Any call that doesn't exist in the `UserPresenter` falls through to the original object. There are full examples below.
+The core idea is the relationship between two classes: your model full of data and a presenter which works as a sort of wrapper to help with your views.
+For instance, if you have a `User` object you might have a `UserPresenter` presenter to go with it. To use it all you do is `$userObject new UserPresenter($userObject);`. 
+The `$userObject` will function the same unless a method is called that is a member of the `UserPresenter`. Another way to think of it is that any call that doesn't exist in the `UserPresenter` falls through to the original object. There are some full examples below.
 
 ### Usage Within Laravel
-There are shortcuts with Laravel that you can use. First you need to add the Service Provider. Add the following to your `app/config/app.php`, `providers` array (has to be after the `ViewServiceProvider`:
+Laravel has several shortcuts that you can use, but first you must add the Service Provider. Add the following to your `app/config/app.php`, `providers` array (has to be after the `ViewServiceProvider`:
 
 ```php
 	'BigElephant\Presenter\PresenterServiceProvider',
 ```
 
-Now you can implement the interface `BigElephant\Presenter\PresentableInterface` on your models and when you do the `View` will automatically turn your model into the defined presenter. So you will just pass your normal object to `View::make(...)` and it will handle the rest for use within your views. Also examples below.
+Now you can implement the interface `BigElephant\Presenter\PresentableInterface` on your models and when you do, the `View` will automatically turn your model into the defined presenter. So you will just pass your normal object to `View::make(...)` and it will handle the rest for use within your views. Also examples below.
 
 
 ### Examples
