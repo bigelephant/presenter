@@ -1,6 +1,6 @@
 ## Presenter
 
-Simple presenter to wrap and render objects. Designed to work with Laravel, but will work as a stand-alone solution.
+Simple presenter to wrap and render objects. Designed to work with Laravel, but will also work as a stand-alone solution.
 
 ### Installation
 
@@ -16,7 +16,7 @@ For instance, if you have a `User` object you might have a `UserPresenter` prese
 The `$userObject` will function the same unless a method is called that is a member of the `UserPresenter`. Another way to think of it is that any call that doesn't exist in the `UserPresenter` falls through to the original object. There are some full examples below.
 
 ### Usage Within Laravel
-Laravel has several shortcuts that you can use, but first you must add the Service Provider. Add the following to your `app/config/app.php`, `providers` array (has to be after the `ViewServiceProvider`:
+Laravel has several shortcuts that you can use, but first you must add the Service Provider. Add the following to your `app/config/app.php`, `providers` array (has to be after the `ViewServiceProvider`):
 
 ```php
 	'BigElephant\Presenter\PresenterServiceProvider',
