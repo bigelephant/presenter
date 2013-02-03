@@ -7,6 +7,13 @@ use Illuminate\View\View;
 
 class Environment extends BaseEnvironment {
 
+	/**
+	 * Get a evaluated view contents for the given view.
+	 *
+	 * @param  string  $view
+	 * @param  array   $data
+	 * @return Illuminate\View\View
+	 */
 	public function make($view, array $data = array())
 	{
 		$data = $this->makePresentable($data);
@@ -14,6 +21,12 @@ class Environment extends BaseEnvironment {
 		return parent::make($view, $data);
 	}
 
+	/**
+	 * Turn any PresenatableInterface'd objects into Presenters
+	 *
+	 * @param  array $data
+	 * @return array $data
+	 */
 	protected function makePresentable(array $data)
 	{
 		foreach ($data AS $key => $value)
