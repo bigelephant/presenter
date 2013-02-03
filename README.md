@@ -12,7 +12,7 @@ Add the following to the "require" section of your `composer.json` file:
 
 ### Basic Usage
 The core idea is the relationship between two classes: your model full of data and a presenter which works as a sort of wrapper to help with your views.
-For instance, if you have a `User` object you might have a `UserPresenter` presenter to go with it. To use it all you do is `$userObject new UserPresenter($userObject);`. 
+For instance, if you have a `User` object you might have a `UserPresenter` presenter to go with it. To use it all you do is `$userObject = new UserPresenter($userObject);`. 
 The `$userObject` will function the same unless a method is called that is a member of the `UserPresenter`. Another way to think of it is that any call that doesn't exist in the `UserPresenter` falls through to the original object. There are some full examples below.
 
 ### Usage Within Laravel
@@ -26,7 +26,7 @@ Now you can implement the interface `BigElephant\Presenter\PresentableInterface`
 
 
 ### Examples
-* note these examples use a made up `slugify` method
+Note: these examples use a made up `slugify` method
 
 **Example Model**
 ```php
@@ -45,7 +45,7 @@ class User {
 	
 **Example Presenter**
 ```php
-class UserPresenter {
+class UserPresenter extends BigElephant\Presenter\Presenter {
 	
 	public function getUrl()
 	{
@@ -75,9 +75,9 @@ class UserController {
 ```
 
 ### Advanced Example
-***Another Example Presenter***
+**Another Example Presenter**
 ```php
-class AdminUserPresenter {
+class AdminUserPresenter extends BigElephant\Presenter\Presenter {
 
 	public function getEditUrl()
 	{
