@@ -1,0 +1,23 @@
+{
+    "name": "bigelephant/presenter",
+    "description": "",
+    "authors": [
+        {
+            "name": "Robbo",
+            "email": "robert@mercenarydesign.net"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/support": "4.0.x"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations"
+        ],
+        "psr-0": {
+            "BigElephant\\Presenter": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}

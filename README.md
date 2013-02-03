@@ -1,4 +1,175 @@
-presenter
-=========
+## Presenter
 
-Simple presenter to wrap objects, designed for Laravel but fine without
+Simple presenter to wrap objects, designed for Laravel but fine without.
+
+### Installation
+
+Add the following to the "require" section of your `composer.json` file:
+
+```json
+	"bigelephant/presenter": "dev-master"
+```
+
+### Basic Usage
+The idea here is you have 2 classes. Your model full of data and then a presenter which works as a sort of wrapper to help with your views.
+If you have a `User` object you might have a `UserPresenter` presenter to go with it. To use it all you do is `$userObject new UserPresent($userObject);`. 
+The `$userObject` will work the same as normal unless something is called that is in the `UserPresenter`. Any call that doesn't exist in the `UserPresenter` falls through to the original object. There are full examples below.
+
+### Usage Within Laravel
+There are shortcuts with Laravel that you can use. First you need to add the Service Provider. Add the following to your `app/config/app.php`, `providers` array (has to be after the `ViewServiceProvider`:
+
+```php
+	'BigElephant\Presenter\PresenterServiceProvider',
+```
+
+Now you can implement the interface `BigElephant\Presenter\PresentableInterface` on your models and when you do the `View` will automatically turn your model into the defined presenter. So you will just pass your normal object to `View::make(...)` and it will handle the rest for use within your views. Also examples below.
+
+
+### Examples
+* note these examples use a made up `slugify` method
+
+**Example Model**
+```php
+// Assume this data is loaded into the model
+class User {
+
+	public $uniqueId = 1;
+
+	public $firstName = 'Bazza';
+
+	public $lastName = 'Pitt';
+
+	public $email = 'email@bourbon.com';
+}
+```
+	
+**Example Presenter**
+```php
+class UserPresenter {
+	
+	public function getUrl()
+	{
+		return 'members/'.slugify($this->firstName);
+	}
+}
+```
+
+**Example Controller**
+```php
+class UserController {
+
+	public function index()
+	{
+		$user = new User;
+
+		return $this->someViewMethod('view_name', ['user' => new UserPresenter($user)]);
+	}
+}
+```
+
+**Example View**
+```php
+<h2><? echo $user->firstName; ?></h2>
+
+<a href="<? echo $user->getUrl(); ?>">Link To This User</a>
+```
+
+### Advanced Example
+***Another Example Presenter***
+```php
+class AdminUserPresenter {
+
+	public function getEditUrl()
+	{
+		return 'members/'.$this->uniqueId.'/edit';
+	}
+}
+```
+
+**Example Controller Modified**
+```php
+class UserController {
+
+	public function index()
+	{
+		$user = new User;
+
+		$user = new UserPresenter($user);
+		$user = new AdminUserPresenter($user);
+
+		// $user will now contain all new methods/variables from both presenters
+
+		return $this->someViewMethod('view_name', ['user' => $user]);
+	}
+}
+```
+
+### Laravel Example
+**Example Model**
+```php
+use BigElephant\Presenter\PresentableInterface;
+
+class Topic extends Eloquent implements PresentableInterface
+{
+	public static function recent($count = 5)
+	{
+		return static::with('author')->orderBy('created_at', 'desc')->take($count)->get();
+	}
+
+	public function author()
+	{
+		return $this->belongsTo('User', 'user_id');
+	}
+
+	public function tags()
+	{
+		return $this->hasMany('Tag');
+	}
+
+	public function getPresenter()
+	{
+		return TopicPresenter($this);
+	}
+}
+```
+
+**Example Presenter**
+```php
+use BigElephant\Presenter\Presenter;
+
+class TopicPresenter extends Presenter
+{
+	public function url()
+	{
+		return URL::action('TopicController@show', [slugify($this->title).'.'.$this->id]);
+	}
+
+	public function publishedDate()
+	{
+		return date('d-m-y', strtotime($this->created_at));
+	}
+}
+```
+
+**Example Controller**
+```php
+class TopicController extends Controler {
+	public function getIndex()
+	{
+		$recentTopics = Topic::recent(100);
+
+		return View::make('topics/index', ['recentTopics' => $recentTopics]);
+	}
+}
+```
+
+Note: between the above controller and getting the the view the `Topic` objects in the `$recentTopics` collection will be turned into the presenter by calling `->getPresenter()` from the model.
+
+**Example View**
+```html
+<ul>
+@foreach ($recentTopics AS $topic)
+	<li><a href="{{ $topic->url() }}">{{ $topic->title }}</a></li>
+@endforeah
+</ul>
+```
