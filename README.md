@@ -2,6 +2,8 @@
 
 Simple presenter to wrap and render objects. Designed to work with Laravel, but will also work as a stand-alone solution.
 
+[![Build Status](https://secure.travis-ci.org/bigelephant/presenter.png)](http://travis-ci.org/bigelephant/presenter)
+
 ### Installation
 
 Add the following to the "require" section of your `composer.json` file:
