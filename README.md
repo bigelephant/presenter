@@ -172,6 +172,6 @@ Note: between the above controller and getting the the view the `Topic` objects 
 <ul>
 @foreach ($recentTopics AS $topic)
 	<li><a href="{{ $topic->url() }}">{{ $topic->title }}</a></li>
-@endforeah
+@endforeach
 </ul>
 ```
