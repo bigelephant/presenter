@@ -26,6 +26,11 @@ Laravel has several shortcuts that you can use, but first you must add the Servi
 
 Now you can implement the interface `BigElephant\Presenter\PresentableInterface` on your models and when you do, the `View` will automatically turn your model into the defined presenter. So you will just pass your normal object to `View::make(...)` and it will handle the rest for use within your views. Also examples below.
 
+You might also like to alias the classes so you don't have to write out the namespaces over and over. To do this add the following to your `app/config/app.php`, `aliases` array:
+```php
+	'Presenter' 	=> 'BigElephant\Presenter\Presenter',
+	'Presentable'	=> 'BigElephant\Presenter\PresentableInterface',
+```
 
 ### Examples
 Note: these examples use a made up `slugify` method
@@ -130,7 +135,7 @@ class Topic extends Eloquent implements PresentableInterface
 
 	public function getPresenter()
 	{
-		return TopicPresenter($this);
+		return new TopicPresenter($this);
 	}
 }
 ```
