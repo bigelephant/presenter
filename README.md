@@ -160,7 +160,7 @@ class TopicPresenter extends Presenter
 
 **Example Controller**
 ```php
-class TopicController extends Controler {
+class TopicController extends Controller {
 	public function getIndex()
 	{
 		$recentTopics = Topic::recent(100);
