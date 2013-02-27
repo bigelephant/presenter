@@ -36,7 +36,7 @@ class Environment extends BaseEnvironment {
 			{
 				$data[$key] = $value->getPresenter();
 			}
-			else if ($value instanceof Collection || $value instanceof Paginator)
+			else if ($value instanceof Collection OR $value instanceof Paginator)
 			{
 				foreach ($value AS $k => $v)
 				{
