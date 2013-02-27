@@ -2,6 +2,7 @@
 
 use BigElephant\Presenter\PresentableInterface;
 use Illuminate\Support\Collection;
+use Illuminate\Pagination\Paginator;
 use Illuminate\View\Environment as BaseEnvironment;
 use Illuminate\View\View;
 
@@ -35,7 +36,7 @@ class Environment extends BaseEnvironment {
 			{
 				$data[$key] = $value->getPresenter();
 			}
-			else if ($value instanceof Collection)
+			else if ($value instanceof Collection OR $value instanceof Paginator)
 			{
 				foreach ($value AS $k => $v)
 				{
