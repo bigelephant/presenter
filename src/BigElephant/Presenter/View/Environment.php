@@ -15,11 +15,11 @@ class Environment extends BaseEnvironment {
 	 * @param  array   $data
 	 * @return Illuminate\View\View
 	 */
-	public function make($view, $data = array())
+	public function make($view, $data = array(), $mergeData = array())
 	{
 		$data = $this->makePresentable($data);
 
-		return parent::make($view, $data);
+		return parent::make($view, $data, $mergeData);
 	}
 
 	/**
